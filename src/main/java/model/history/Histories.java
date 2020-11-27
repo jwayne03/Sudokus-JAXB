@@ -1,4 +1,5 @@
-package model;
+package model.history;
+
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,22 +11,21 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
         name = "",
-        propOrder = {"user"}
+        propOrder = {"history"}
 )
 @XmlRootElement(
-        name = "users"
+        name = "histories"
 )
-public class Users {
+public class Histories {
 
-    protected List<Users> users;
-    private User user;
+    protected List<Histories> history;
 
-    public Users() {
+    public Histories() {
 
     }
 
-    public List<Users> getUsers() {
-        if (this.users == null) this.users = new ArrayList<Users>();
-        return this.users;
+    public List<Histories> getHistory() {
+        if (this.history == null) this.history = new ArrayList<Histories>();
+        return this.history;
     }
 }

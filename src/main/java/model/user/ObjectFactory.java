@@ -1,4 +1,7 @@
-package model;
+package model.user;
+
+import model.sudoku.Sudoku;
+import model.sudoku.Sudokus;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
@@ -7,14 +10,6 @@ public class ObjectFactory {
 
     public ObjectFactory() {
 
-    }
-
-    public Sudokus createSudokus() {
-        return new Sudokus();
-    }
-
-    public Sudoku createSudoku() {
-        return new Sudoku();
     }
 
     public Users createUsers() {

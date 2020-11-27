@@ -1,4 +1,4 @@
-package model;
+package model.sudoku;
 
 import javax.xml.bind.annotation.*;
 

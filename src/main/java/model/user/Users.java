@@ -1,4 +1,4 @@
-package model;
+package model.user;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -10,23 +10,22 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
         name = "",
-        propOrder = {"sudoku"}
+        propOrder = {"user"}
 )
-
 @XmlRootElement(
-        name = "sudokus"
+        name = "users"
 )
-public class Sudokus {
+public class Users {
 
-    protected List<Sudokus> sudokus;
-    private Sudoku sudoku;
+    protected List<Users> users;
+    private User user;
 
-    public Sudokus() {
+    public Users() {
 
     }
 
-    public List<Sudokus> getSudoku() {
-        if (this.sudokus == null) this.sudokus = new ArrayList<Sudokus>();
-        return this.sudokus;
+    public List<Users> getUsers() {
+        if (this.users == null) this.users = new ArrayList<Users>();
+        return this.users;
     }
 }
