@@ -9,8 +9,8 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(
-        name = "",
-        propOrder = {"sudoku"}
+        name = ""
+//        propOrder = {"sudoku"}
 )
 
 @XmlRootElement(
@@ -18,15 +18,17 @@ import java.util.List;
 )
 public class Sudokus {
 
-    protected List<Sudokus> sudokus;
-    private Sudoku sudoku;
+    protected List<Sudoku> sudokus;
 
     public Sudokus() {
 
     }
 
-    public List<Sudokus> getSudoku() {
-        if (this.sudokus == null) this.sudokus = new ArrayList<Sudokus>();
-        return this.sudokus;
+    public List<Sudoku> getSudokus() {
+        return sudokus;
+    }
+
+    public void setSudokus(List<Sudoku> sudokus) {
+        this.sudokus = sudokus;
     }
 }

@@ -1,31 +1,25 @@
 package model.user;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(
-        name = "",
-        propOrder = {"user"}
-)
+//@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(
         name = "users"
 )
 public class Users {
 
-    protected List<Users> users;
-    private User user;
+    protected List<User> users;
 
-    public Users() {
-
+    @XmlElement(
+            name = "user"
+    )
+    public List<User> getUsers() {
+        return users;
     }
 
-    public List<Users> getUsers() {
-        if (this.users == null) this.users = new ArrayList<Users>();
-        return this.users;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

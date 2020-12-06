@@ -1,34 +1,27 @@
 package model.user;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(
+        name = "user"
+)
 @XmlType(
-        name = "",
         propOrder = {"fullname", "username", "password"}
 )
 public class User {
 
-    @XmlElement(
-            required = true
-    )
     protected String fullname;
-
-    @XmlElement(
-            required = true
-    )
     protected String username;
-
-    @XmlElement(
-            required = true
-    )
     protected String password;
 
     public User() {
 
+    }
+
+    public User(String fullname, String username, String password) {
+        this.fullname = fullname;
+        this.username = username;
+        this.password = password;
     }
 
     public String getFullname() {

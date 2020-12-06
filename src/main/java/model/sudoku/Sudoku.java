@@ -25,6 +25,11 @@ public class Sudoku {
     )
     protected String description;
 
+    @XmlAttribute(
+            name = "id"
+    )
+    protected int id;
+
     public Sudoku(){
 
     }
@@ -35,6 +40,14 @@ public class Sudoku {
 
     public void setProblem(String problem) {
         this.problem = problem;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSolved() {
