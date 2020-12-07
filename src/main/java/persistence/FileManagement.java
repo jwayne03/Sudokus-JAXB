@@ -11,7 +11,6 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,16 +32,10 @@ public class FileManagement {
 
     public boolean ifExists() {
         File file = new File(route() + FILE_SUDOKUS + ".txt");
-
-        if (file.exists()) {
-            return true;
-        } else {
-            return false;
-        }
+        return file.exists();
     }
 
-    // FIXME: 06/12/2020 need to solve static method
-    public static String route() {
+    public String route() {
         String route = System.getProperty("user.dir") + SEPARATOR + FOLDER_DATA;
         File folder = new File(route);
         if (!folder.exists()) folder.mkdir();
@@ -114,10 +107,9 @@ public class FileManagement {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-
     }
 
-    public static void saveDataUserXML(List<User> userList) {
+    public void saveDataUserXML(List<User> userList) {
         try {
             File file = new File(route() + FILE_USERS + ".xml");
             JAXBContext jaxbContext = JAXBContext.newInstance(Users.class);
@@ -130,17 +122,5 @@ public class FileManagement {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-
     }
-//    public static Sudokus readSudokusXML() {
-//        return readSudokusXML();
-//    }
-//
-//    public static Users readUsersXML() {
-//        return readUsersXML();
-//    }
-//
-//    public static Histories readHistoriesXML() {
-//        return readHistoriesXML();
-//    }
 }

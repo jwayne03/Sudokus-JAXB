@@ -16,8 +16,13 @@
         <password>colls</password>
     </user>
     <user>
-        <fullname>karen</fullname>
-        <username>karen</username>
-        <password>123123</password>
+        <fullname>xd</fullname>
+        <username>xd</username>
+        <password>123</password>
+    </user>
+    <user>
+        <fullname>yo</fullname>
+        <username>yo</username>
+        <password>123</password>
     </user>
 </users>
