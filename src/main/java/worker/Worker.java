@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class Worker {
 
-    public static String askString(String message) {
+    public String askString(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
         do {
@@ -29,7 +29,7 @@ public class Worker {
         return answer;
     }
 
-    public static String askStringToLowerCase(String message) {
+    public String askStringToLowerCase(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
         do {
@@ -45,7 +45,7 @@ public class Worker {
         return answer;
     }
 
-    public static String askStringToUpperCase(String message) {
+    public String askStringToUpperCase(String message) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
         do {
@@ -61,7 +61,7 @@ public class Worker {
         return answer;
     }
 
-    public static String askString(String message, String a, String b) {
+    public String askString(String message, String a, String b) {
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         String answer = "";
         do {
@@ -73,23 +73,7 @@ public class Worker {
         return answer;
     }
 
-    public static String askString(String message, ArrayList<String> wordsAccepted) {
-        String answer;
-        boolean isWordOk;
-        do {
-            for (String word : wordsAccepted) {
-                System.out.println(word);
-            }
-            answer = Worker.askString(message);
-            isWordOk = wordIsOk(answer, wordsAccepted);
-            if (!isWordOk) {
-                System.out.println("Wrong answer!");
-            }
-        } while (!isWordOk);
-        return answer;
-    }
-
-    private static boolean wordIsOk(String word, ArrayList<String> wordsAccepted) {
+    private boolean wordIsOk(String word, ArrayList<String> wordsAccepted) {
         for (String w : wordsAccepted) {
             if (w.equalsIgnoreCase(word)) {
                 return true;
@@ -98,7 +82,7 @@ public class Worker {
         return false;
     }
 
-    public static int askInt(String message) {
+    public int askInt(String message) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int num = 0;
         boolean error;
@@ -118,7 +102,7 @@ public class Worker {
         return num;
     }
 
-    public static int askInt(String message, int min, int max) {
+    public int askInt(String message, int min, int max) {
         int num;
         do {
             num = askInt(message);
@@ -129,7 +113,7 @@ public class Worker {
         return num;
     }
 
-    public static double askDouble(String message) {
+    public double askDouble(String message) {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         double num = 0;
         boolean error;
@@ -149,7 +133,7 @@ public class Worker {
         return num;
     }
 
-    public static double askDouble(String message, int min, int max) {
+    public double askDouble(String message, int min, int max) {
         double num;
         do {
             num = askDouble(message);

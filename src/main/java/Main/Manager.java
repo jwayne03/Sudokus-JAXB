@@ -13,14 +13,13 @@ public class Manager implements Runnable {
 
     private static Manager manager;
     private FileManagement fileManagement;
+    private Worker worker;
     private List<User> userList = null;
     private List<Sudoku> sudokuList;
-    public Histories histories;
-    private User user;
 
     private Manager() {
         fileManagement = new FileManagement();
-//        userList = new ArrayList<>();
+        worker = new Worker();
         isFileExists();
     }
 
@@ -51,7 +50,7 @@ public class Manager implements Runnable {
         while (!exit) {
             menu();
 
-            int option = Worker.askInt("Introduce an option: ");
+            int option = worker.askInt("Introduce an option: ");
 
             switch (option) {
                 case 1:
@@ -78,9 +77,9 @@ public class Manager implements Runnable {
         User user = new User();
 
         System.out.println("You have chose to register, here we go.");
-        String fullname = Worker.askString("Introduce your fullname");
-        String username = Worker.askString("Introduce your username: ");
-        String password = Worker.askString("Introduce your password: ");
+        String fullname = worker.askString("Introduce your fullname");
+        String username = worker.askString("Introduce your username: ");
+        String password = worker.askString("Introduce your password: ");
 
         user.setFullname(fullname);
         user.setUsername(username);
@@ -94,15 +93,15 @@ public class Manager implements Runnable {
     }
 
     private void login() {
-        String username = Worker.askString("Introduce your username: ");
-        String password = Worker.askString("Introduce your password: ");
+        String username = worker.askString("Introduce your username: ");
+        String password = worker.askString("Introduce your password: ");
 
         checkUserIfExist(username, password);
 
-        if (!checkUserIfExist(username,password)) {
+        if (!checkUserIfExist(username, password)) {
             System.out.println("Username or password are incorrect\n");
         } else {
-            userLogged(username);
+            userLogged(username, password);
         }
     }
 
@@ -117,19 +116,19 @@ public class Manager implements Runnable {
         return false;
     }
 
-    private void userLogged(String user) {
+    private void userLogged(String username, String password) {
         boolean exit = false;
 
-        System.out.println("\nHello! " + user);
+        System.out.println("\nHello! " + username);
 
         while (!exit) {
             userMenuLogged();
 
-            int option = Worker.askInt("Introduce an option:");
+            int option = worker.askInt("Introduce an option:");
 
             switch (option) {
                 case 1:
-                    modifyPassword();
+                    modifyPassword(username, password);
                     break;
                 case 2:
                     getRandomNotPlayerSudoku();
@@ -151,10 +150,39 @@ public class Manager implements Runnable {
         }
     }
 
-    private void modifyPassword() {
-        String password = Worker.askString("Introduce your password: ");
-        String newPassword = Worker.askString("Introduce your new password: ");
-        String verifyPassword = Worker.askString("Verify your password: ");
+    private void modifyPassword(String username, String password) {
+        String oldPassword = worker.askString("Introduce your password: ");
+        if (!checkOldPassword(username, oldPassword)) {
+            System.out.println("Incorrect password");
+        } else {
+            String newPassword = worker.askString("Introduce your new password: ");
+            String verifyPassword = worker.askString("Verify your password: ");
+
+            if (oldPassword.equals(newPassword) && oldPassword.equalsIgnoreCase(newPassword)) {
+                System.out.println("Your new password can't be the same as the old");
+            }
+
+            if (newPassword.equals(verifyPassword)) {
+                for (User user : userList) {
+                    if (user.getUsername().equalsIgnoreCase(username)) {
+                        user.setPassword(newPassword);
+                        fileManagement.saveDataUserXML(userList);
+                        System.out.println("Your password has been changed successfully");
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean checkOldPassword(String username, String oldPassword) {
+        for (User user : userList) {
+            if (user.getUsername().equalsIgnoreCase(username)) {
+                if (user.getPassword().equals(oldPassword)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void getRandomNotPlayerSudoku() {
