@@ -1,5 +1,7 @@
 package persistence;
 
+import model.history.Histories;
+import model.history.History;
 import model.sudoku.Sudoku;
 import model.sudoku.Sudokus;
 import model.user.User;
@@ -82,7 +84,7 @@ public class FileManagement {
         JAXBContext context = JAXBContext.newInstance(Sudokus.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
         Sudokus sudoku = (Sudokus) unmarshaller.unmarshal(new File(route() + FILE_SUDOKUS + ".xml"));
-        List<Sudoku> sudokus =  sudoku.getSudokus();
+        List<Sudoku> sudokus = sudoku.getSudokus();
         return sudokus;
     }
 
@@ -90,7 +92,7 @@ public class FileManagement {
         JAXBContext context = JAXBContext.newInstance(Users.class);
         Unmarshaller unmarshaller = context.createUnmarshaller();
         Users users = (Users) unmarshaller.unmarshal(new File(route() + FILE_USERS + ".xml"));
-        List<User> userList =  users.getUsers();
+        List<User> userList = users.getUsers();
         return userList;
     }
 
@@ -119,6 +121,21 @@ public class FileManagement {
             Users users = new Users();
             users.setUsers(userList);
             marshaller.marshal(users, file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveDataHistoryXML(List<History> histories) {
+        try {
+            File file = new File(route() + FILE_HISTORY + ".xml");
+            JAXBContext jaxbContext = JAXBContext.newInstance(Histories.class);
+
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            Histories histories1 = new Histories();
+            histories1.setHistory(histories);
+            marshaller.marshal(histories1, file);
         } catch (JAXBException e) {
             e.printStackTrace();
         }

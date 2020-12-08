@@ -12,14 +12,17 @@ public class Sudoku {
             required = true
     )
     protected String problem;
+
     @XmlElement(
             required = true
     )
     protected String solved;
+
     @XmlAttribute(
             name = "level"
     )
     protected Integer level;
+
     @XmlAttribute(
             name = "description"
     )

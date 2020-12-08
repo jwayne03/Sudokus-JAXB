@@ -1,13 +1,15 @@
 package Main;
 
-import model.history.Histories;
+import model.history.History;
 import model.sudoku.Sudoku;
 import model.user.User;
 import persistence.FileManagement;
 import worker.Worker;
 
 import javax.xml.bind.JAXBException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Manager implements Runnable {
 
@@ -16,6 +18,7 @@ public class Manager implements Runnable {
     private Worker worker;
     private List<User> userList = null;
     private List<Sudoku> sudokuList;
+    private List<History> histories = null;
 
     private Manager() {
         fileManagement = new FileManagement();
@@ -84,6 +87,7 @@ public class Manager implements Runnable {
         user.setFullname(fullname);
         user.setUsername(username);
         user.setPassword(password);
+
         userList.add(new User(fullname, username, password));
         saveDataXML(userList);
     }
@@ -131,10 +135,10 @@ public class Manager implements Runnable {
                     modifyPassword(username, password);
                     break;
                 case 2:
-                    getRandomNotPlayerSudoku();
+                    getRandomNotPlayerSudoku(username);
                     break;
                 case 3:
-                    addSudokuToHistory();
+                    addSudokuToHistory(username, 0);
                     break;
                 case 4:
                     getAverageTime();
@@ -185,12 +189,61 @@ public class Manager implements Runnable {
         return false;
     }
 
-    private void getRandomNotPlayerSudoku() {
+    private void getRandomNotPlayerSudoku(String username) {
+        Random random = new Random();
+        int rand = random.nextInt(100) + 1;
 
+        if (isSudokuPlayed(username)) {
+
+            boolean exit = false;
+
+            while (!exit) {
+
+                System.out.println(sudokuList.get(rand).getId());
+                System.out.println(sudokuList.get(rand).getProblem());
+
+                System.out.println("1 - Yes");
+
+                int option = worker.askInt("Have you finished the sudoku?");
+
+                if (option == 1) {
+                    addSudokuToHistory(username, rand);
+                }
+
+                if (option != 1) System.out.println("You need to introduce [1 - Yes]");
+            }
+        } else {
+            System.out.println("You already played this sudoku");
+        }
     }
 
-    private void addSudokuToHistory() {
+    private boolean isSudokuPlayed(String username) {
+        for (History history : histories) {
+            if (history.getUsername().equalsIgnoreCase(username)) {
+                for (Sudoku sudoku : sudokuList) {
+                    if (history.getId() != sudoku.getId()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 
+    private void addSudokuToHistory(String username, int rand) {
+        History history = new History();
+        int min = worker.askInt("Minutes: ", 0, (int) Double.MAX_VALUE);
+        int sec = worker.askInt("Seconds: ", 0, (int) Double.MAX_VALUE);
+        int time = min * 60 + sec;
+
+        history.setUsername(username);
+        history.setTime(time);
+        history.setLevel(rand);
+        history.setDescription(sudokuList.get(rand).getDescription());
+        history.setProblem(sudokuList.get(rand).getProblem());
+        history.setSolved(sudokuList.get(rand).getSolved());
+
+        fileManagement.saveDataHistoryXML(histories);
     }
 
     private void getAverageTime() {
@@ -200,6 +253,7 @@ public class Manager implements Runnable {
     private void rankingAverageTime() {
 
     }
+
 
     private void menu() {
         System.out.println("-------------------- Welcome to Sudokus --------------------");

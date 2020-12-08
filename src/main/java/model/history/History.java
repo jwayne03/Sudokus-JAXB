@@ -10,7 +10,9 @@ import javax.xml.bind.annotation.*;
         propOrder = {
                 "username",
                 "time",
-                "sudoku"
+                "sudoku",
+                "problem",
+                "solved"
         }
 )
 public class History {
@@ -20,13 +22,76 @@ public class History {
     protected String username;
     protected int time;
 
+    @XmlAttribute(
+            name = "id"
+    )
+    protected int id;
+
+    @XmlAttribute(
+            name = "level"
+    )
+    protected int level;
     @XmlElement(
             required = true
     )
     protected Sudoku sudoku;
 
+    @XmlElement(
+            required = true
+    )
+    protected String problem;
+
+    @XmlElement(
+            required = true
+    )
+    protected String solved;
+    @XmlAttribute(
+            name = "description"
+    )
+    protected String description;
+
     public History() {
 
+    }
+
+    public String getProblem() {
+        return problem;
+    }
+
+    public void setProblem(String problem) {
+        this.problem = problem;
+    }
+
+    public String getSolved() {
+        return solved;
+    }
+
+    public void setSolved(String solved) {
+        this.solved = solved;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getUsername() {
