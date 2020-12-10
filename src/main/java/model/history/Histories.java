@@ -11,26 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(
-        name = "",
-        propOrder = {"history"}
-)
-@XmlRootElement(
-        name = "histories"
-)
+@XmlType(name = "", propOrder = {"history"})
+@XmlRootElement(name = "histories")
 public class Histories {
 
     protected List<History> history;
-
-    public Histories() {
-
-    }
-
-    public List<History> getHistory() {
-        return history;
-    }
-
-    public void setHistory(List<History> history) {
-        this.history = history;
-    }
+    public Histories() { }
+    public List<History> getHistory() { return history; }
+    public void setHistory(List<History> history) { this.history = history; }
 }

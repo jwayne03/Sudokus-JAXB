@@ -38,6 +38,7 @@ public class Manager implements Runnable {
                 fileManagement.saveDataSudokusXML(sudokuList);
             } else {
                 sudokuList = fileManagement.loadDataSudoku();
+                userList = fileManagement.loadDataUser();
             }
             userList = fileManagement.loadDataUser();
         } catch (JAXBException e) {

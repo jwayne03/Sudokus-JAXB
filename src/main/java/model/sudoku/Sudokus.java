@@ -8,27 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(
-        name = ""
-//        propOrder = {"sudoku"}
-)
-
-@XmlRootElement(
-        name = "sudokus"
-)
+@XmlType(name = "")
+@XmlRootElement(name = "sudokus")
 public class Sudokus {
 
     protected List<Sudoku> sudokus;
-
-    public Sudokus() {
-
-    }
-
-    public List<Sudoku> getSudokus() {
-        return sudokus;
-    }
-
-    public void setSudokus(List<Sudoku> sudokus) {
-        this.sudokus = sudokus;
-    }
+    public Sudokus() { }
+    public List<Sudoku> getSudokus() { return sudokus; }
+    public void setSudokus(List<Sudoku> sudokus) { this.sudokus = sudokus; }
 }
