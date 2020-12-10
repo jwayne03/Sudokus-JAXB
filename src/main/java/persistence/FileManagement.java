@@ -96,6 +96,14 @@ public class FileManagement {
         return userList;
     }
 
+    public List<History> loadDataHistory() throws JAXBException {
+        JAXBContext context = JAXBContext.newInstance(Histories.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        Histories histories = (Histories) unmarshaller.unmarshal(new File(route() + FILE_HISTORY + ".xml"));
+        List<History> historyList = histories.getHistory();
+        return historyList;
+    }
+
     public void saveDataSudokusXML(List<Sudoku> sudokuList) {
         try {
             File file = new File(route() + FILE_SUDOKUS + ".xml");

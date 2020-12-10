@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<histories/>
+<histories>
+    <history id="75" level="74" description="Medium">
+        <username>yo</username>
+        <time>20</time>
+        <problem>.539.876..........41.....92..16.28...4..7..1...71.43..53.....81..........862.947.</problem>
+        <solved>253918764769425138418367592391652847645873219827194356532746981974581623186239475</solved>
+    </history>
+</histories>

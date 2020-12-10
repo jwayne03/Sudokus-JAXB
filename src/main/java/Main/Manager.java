@@ -1,5 +1,6 @@
 package Main;
 
+import exception.MyException;
 import model.history.History;
 import model.sudoku.Sudoku;
 import model.user.User;
@@ -18,9 +19,10 @@ public class Manager implements Runnable {
     private Worker worker;
     private List<User> userList = null;
     private List<Sudoku> sudokuList;
-    private List<History> histories = null;
+    private List<History> histories;
 
     private Manager() {
+        histories = new ArrayList<>();
         fileManagement = new FileManagement();
         worker = new Worker();
         isFileExists();
@@ -42,7 +44,7 @@ public class Manager implements Runnable {
             }
             userList = fileManagement.loadDataUser();
         } catch (JAXBException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -98,16 +100,21 @@ public class Manager implements Runnable {
     }
 
     private void login() {
-        String username = worker.askString("Introduce your username: ");
-        String password = worker.askString("Introduce your password: ");
+        try {
+            String username = worker.askString("Introduce your username: ");
+            String password = worker.askString("Introduce your password: ");
 
-        checkUserIfExist(username, password);
+            checkUserIfExist(username, password);
 
-        if (!checkUserIfExist(username, password)) {
-            System.out.println("Username or password are incorrect\n");
-        } else {
-            userLogged(username, password);
+            if (!checkUserIfExist(username, password)) {
+                throw new MyException(MyException.WRONG_USER_OR_PASSWORD);
+            } else {
+                userLogged(username, password);
+            }
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
         }
+
     }
 
     private boolean checkUserIfExist(String username, String password) {
@@ -126,56 +133,63 @@ public class Manager implements Runnable {
 
         System.out.println("\nHello! " + username);
 
-        while (!exit) {
-            userMenuLogged();
+        try {
+            while (!exit) {
+                userMenuLogged();
 
-            int option = worker.askInt("Introduce an option:");
+                int option = worker.askInt("Introduce an option:");
 
-            switch (option) {
-                case 1:
-                    modifyPassword(username, password);
-                    break;
-                case 2:
-                    getRandomNotPlayerSudoku(username);
-                    break;
-                case 3:
-                    addSudokuToHistory(username, 0);
-                    break;
-                case 4:
-                    getAverageTime();
-                    break;
-                case 0:
-                    System.out.println("You gonna be redirected to the main menu");
-                    exit = true;
-                    break;
-                default:
-                    System.out.println("You need to introduce an option");
-                    break;
+                switch (option) {
+                    case 1:
+                        modifyPassword(username, password);
+                        break;
+                    case 2:
+                        getRandomNotPlayerSudoku(username);
+                        break;
+                    case 3:
+                        addSudokuToHistory(username, 0);
+                        break;
+                    case 4:
+                        getAverageTime();
+                        break;
+                    case 0:
+                        System.out.println("You gonna be redirected to the main menu");
+                        exit = true;
+                        break;
+                    default:
+                        throw new MyException(MyException.WRONG_OPTION);
+                }
             }
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
         }
     }
 
     private void modifyPassword(String username, String password) {
-        String oldPassword = worker.askString("Introduce your password: ");
-        if (!checkOldPassword(username, oldPassword)) {
-            System.out.println("Incorrect password");
-        } else {
-            String newPassword = worker.askString("Introduce your new password: ");
-            String verifyPassword = worker.askString("Verify your password: ");
+        try {
+            String oldPassword = worker.askString("Introduce your password: ");
+            if (!checkOldPassword(username, oldPassword)) {
+                throw new MyException(MyException.WRONG_PASSWORD);
+            } else {
+                String newPassword = worker.askString("Introduce your new password: ");
+                String verifyPassword = worker.askString("Verify your password: ");
 
-            if (oldPassword.equals(newPassword) && oldPassword.equalsIgnoreCase(newPassword)) {
-                System.out.println("Your new password can't be the same as the old");
-            }
+                if (oldPassword.equals(newPassword) && oldPassword.equalsIgnoreCase(newPassword)) {
+                    throw new MyException(MyException.PASSWORD_CANT_BE_SAME_AS_OLD);
+                }
 
-            if (newPassword.equals(verifyPassword)) {
-                for (User user : userList) {
-                    if (user.getUsername().equalsIgnoreCase(username)) {
-                        user.setPassword(newPassword);
-                        fileManagement.saveDataUserXML(userList);
-                        System.out.println("Your password has been changed successfully");
+                if (newPassword.equals(verifyPassword)) {
+                    for (User user : userList) {
+                        if (user.getUsername().equalsIgnoreCase(username)) {
+                            user.setPassword(newPassword);
+                            fileManagement.saveDataUserXML(userList);
+                            System.out.println("Your password has been changed successfully");
+                        }
                     }
                 }
             }
+        } catch (MyException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -199,7 +213,6 @@ public class Manager implements Runnable {
             boolean exit = false;
 
             while (!exit) {
-
                 System.out.println(sudokuList.get(rand).getId());
                 System.out.println(sudokuList.get(rand).getProblem());
 
@@ -209,6 +222,7 @@ public class Manager implements Runnable {
 
                 if (option == 1) {
                     addSudokuToHistory(username, rand);
+                    exit = true;
                 }
 
                 if (option != 1) System.out.println("You need to introduce [1 - Yes]");
@@ -222,7 +236,7 @@ public class Manager implements Runnable {
         for (History history : histories) {
             if (history.getUsername().equalsIgnoreCase(username)) {
                 for (Sudoku sudoku : sudokuList) {
-                    if (history.getId() != sudoku.getId()) {
+                    if (history.getId() == sudoku.getId()) {
                         return false;
                     }
                 }
@@ -237,6 +251,7 @@ public class Manager implements Runnable {
         int sec = worker.askInt("Seconds: ", 0, (int) Double.MAX_VALUE);
         int time = min * 60 + sec;
 
+        history.setId(sudokuList.get(rand).getId());
         history.setUsername(username);
         history.setTime(time);
         history.setLevel(rand);
@@ -244,6 +259,7 @@ public class Manager implements Runnable {
         history.setProblem(sudokuList.get(rand).getProblem());
         history.setSolved(sudokuList.get(rand).getSolved());
 
+        histories.add(history);
         fileManagement.saveDataHistoryXML(histories);
     }
 
@@ -254,7 +270,6 @@ public class Manager implements Runnable {
     private void rankingAverageTime() {
 
     }
-
 
     private void menu() {
         System.out.println("-------------------- Welcome to Sudokus --------------------");
