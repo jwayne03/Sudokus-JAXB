@@ -8,8 +8,7 @@ import persistence.FileManagement;
 import worker.Worker;
 
 import javax.xml.bind.JAXBException;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Manager implements Runnable {
 
@@ -78,7 +77,7 @@ public class Manager implements Runnable {
         }
     }
 
-    private void registerUser() {
+    public void registerUser() {
         User user = new User();
 
         System.out.println("You have chose to register, here we go.");
@@ -225,8 +224,9 @@ public class Manager implements Runnable {
                     exit = true;
                 }
 
-                if (option != 1 && option != 2)
+                if (option != 1 && option != 2) {
                     System.out.println("You need to introduce [1 - Yes], [2 - Back to menu]");
+                }
             }
         } else {
             System.out.println("You already played this sudoku");
@@ -267,9 +267,12 @@ public class Manager implements Runnable {
     }
 
     private void getAverageTime(String username) {
+        System.out.println("Your average time is: " + average(username) + " seconds");
+    }
+
+    private double average(String username) {
         int count = 0;
         double average = 0;
-
         for (History history : historyList) {
             if (username.equalsIgnoreCase(history.getUsername())) {
                 average += history.getTime();
@@ -277,16 +280,13 @@ public class Manager implements Runnable {
             }
         }
 
-        System.out.println("Your average time is: " + average / count + " seconds");
+        return average / count;
     }
 
     private void rankingAverageTime() {
-        int count = 1;
-
         for (History history : historyList) {
-
+            System.out.println(history.getTime());
         }
-
     }
 
     private void menu() {
