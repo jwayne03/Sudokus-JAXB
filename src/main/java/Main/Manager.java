@@ -284,9 +284,9 @@ public class Manager implements Runnable {
     }
 
     private void rankingAverageTime() {
-        for (History history : historyList) {
-            System.out.println(history.getTime());
-        }
+        Comparator<History> comparator = Comparator.comparing(History::getTime);
+        System.out.println("Top ranking of Sudoku");
+        historyList.stream().sorted(comparator).forEach(System.out::println);
     }
 
     private void menu() {
