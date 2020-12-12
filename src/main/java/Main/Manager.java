@@ -8,7 +8,6 @@ import persistence.FileManagement;
 import worker.Worker;
 
 import javax.xml.bind.JAXBException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,10 +18,9 @@ public class Manager implements Runnable {
     private Worker worker;
     private List<User> userList = null;
     private List<Sudoku> sudokuList;
-    private List<History> histories;
+    private List<History> historyList;
 
     private Manager() {
-        histories = new ArrayList<>();
         fileManagement = new FileManagement();
         worker = new Worker();
         isFileExists();
@@ -41,6 +39,7 @@ public class Manager implements Runnable {
             } else {
                 sudokuList = fileManagement.loadDataSudoku();
                 userList = fileManagement.loadDataUser();
+                historyList = fileManagement.loadDataHistory();
             }
             userList = fileManagement.loadDataUser();
         } catch (JAXBException e) {
@@ -109,12 +108,11 @@ public class Manager implements Runnable {
             if (!checkUserIfExist(username, password)) {
                 throw new MyException(MyException.WRONG_USER_OR_PASSWORD);
             } else {
-                userLogged(username, password);
+                userLogged(username);
             }
         } catch (MyException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     private boolean checkUserIfExist(String username, String password) {
@@ -128,7 +126,7 @@ public class Manager implements Runnable {
         return false;
     }
 
-    private void userLogged(String username, String password) {
+    private void userLogged(String username) {
         boolean exit = false;
 
         System.out.println("\nHello! " + username);
@@ -141,16 +139,13 @@ public class Manager implements Runnable {
 
                 switch (option) {
                     case 1:
-                        modifyPassword(username, password);
+                        modifyPassword(username);
                         break;
                     case 2:
                         getRandomNotPlayerSudoku(username);
                         break;
                     case 3:
-                        addSudokuToHistory(username, 0);
-                        break;
-                    case 4:
-                        getAverageTime();
+                        getAverageTime(username);
                         break;
                     case 0:
                         System.out.println("You gonna be redirected to the main menu");
@@ -165,7 +160,7 @@ public class Manager implements Runnable {
         }
     }
 
-    private void modifyPassword(String username, String password) {
+    private void modifyPassword(String username) {
         try {
             String oldPassword = worker.askString("Introduce your password: ");
             if (!checkOldPassword(username, oldPassword)) {
@@ -217,6 +212,7 @@ public class Manager implements Runnable {
                 System.out.println(sudokuList.get(rand).getProblem());
 
                 System.out.println("1 - Yes");
+                System.out.println("2 - Back to menu");
 
                 int option = worker.askInt("Have you finished the sudoku?");
 
@@ -225,7 +221,12 @@ public class Manager implements Runnable {
                     exit = true;
                 }
 
-                if (option != 1) System.out.println("You need to introduce [1 - Yes]");
+                if (option == 2) {
+                    exit = true;
+                }
+
+                if (option != 1 && option != 2)
+                    System.out.println("You need to introduce [1 - Yes], [2 - Back to menu]");
             }
         } else {
             System.out.println("You already played this sudoku");
@@ -233,16 +234,16 @@ public class Manager implements Runnable {
     }
 
     private boolean isSudokuPlayed(String username) {
-        for (History history : histories) {
+        for (History history : historyList) {
             if (history.getUsername().equalsIgnoreCase(username)) {
                 for (Sudoku sudoku : sudokuList) {
-                    if (history.getId() == sudoku.getId()) {
-                        return false;
+                    if (history.getId() != sudoku.getId()) {
+                        return true;
                     }
                 }
             }
         }
-        return true;
+        return false;
     }
 
     private void addSudokuToHistory(String username, int rand) {
@@ -254,20 +255,37 @@ public class Manager implements Runnable {
         history.setId(sudokuList.get(rand).getId());
         history.setUsername(username);
         history.setTime(time);
-        history.setLevel(rand);
+        history.setLevel(sudokuList.get(rand).getLevel());
         history.setDescription(sudokuList.get(rand).getDescription());
         history.setProblem(sudokuList.get(rand).getProblem());
         history.setSolved(sudokuList.get(rand).getSolved());
 
-        histories.add(history);
-        fileManagement.saveDataHistoryXML(histories);
+        historyList.add(history);
+        fileManagement.saveDataHistoryXML(historyList);
+
+        System.out.println("You resolved the problem in " + min + " minutes and " + sec + " seconds");
     }
 
-    private void getAverageTime() {
+    private void getAverageTime(String username) {
+        int count = 0;
+        double average = 0;
 
+        for (History history : historyList) {
+            if (username.equalsIgnoreCase(history.getUsername())) {
+                average += history.getTime();
+                count++;
+            }
+        }
+
+        System.out.println("Your average time is: " + average / count + " seconds");
     }
 
     private void rankingAverageTime() {
+        int count = 1;
+
+        for (History history : historyList) {
+
+        }
 
     }
 
@@ -282,8 +300,7 @@ public class Manager implements Runnable {
         System.out.println("---------------------------------------------------------");
         System.out.println("1. Modify your password: ");
         System.out.println("2. Get a random not played sudoku: ");
-        System.out.println("3. Add sudoku to history: ");
-        System.out.println("4. Get average time: ");
+        System.out.println("3. Get average time: ");
         System.out.println("0. Exit");
         System.out.println("---------------------------------------------------------");
     }

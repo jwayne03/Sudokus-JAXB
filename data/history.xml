@@ -1,9 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <histories>
-    <history id="75" level="74" description="Medium">
+    <history id="78" level="5" description="Medium">
+        <username>jwayne</username>
+        <time>40</time>
+        <problem>63.51......532...44....975.5.8..3.1..6.1.8.4..1.2..9.7.536....97...915......35.21</problem>
+        <solved>637514298895327164421869753578943612269178345314256987153682479782491536946735821</solved>
+    </history>
+    <history id="40" level="5" description="Medium">
         <username>yo</username>
-        <time>20</time>
-        <problem>.539.876..........41.....92..16.28...4..7..1...71.43..53.....81..........862.947.</problem>
-        <solved>253918764769425138418367592391652847645873219827194356532746981974581623186239475</solved>
+        <time>55</time>
+        <problem>1...5..8923.4...7...96.82....7.2.51.3..8.5..4.41.3.8....52.31...2...7.5871..8...6</problem>
+        <solved>176352489238491675459678231867924513392815764541736892985263147623147958714589326</solved>
+    </history>
+    <history id="54" level="6" description="Medium">
+        <username>yo</username>
+        <time>142</time>
+        <problem>..9...4...561.793.38.....61...871.......6.......524...13.....72.927.315...8...6..</problem>
+        <solved>719638425256147938384952761923871546541369287867524319135496872692783154478215693</solved>
+    </history>
+    <history id="57" level="4" description="Medium">
+        <username>yo</username>
+        <time>142</time>
+        <problem>.4386.....1...3546.5.7.4..3.27...3.98...7...41.6...78.5..4.1.2.2746...3.....9745.</problem>
+        <solved>943865172718923546652714893427586319835179264196342785589431627274658931361297458</solved>
+    </history>
+    <history id="42" level="8" description="Hard">
+        <username>yo</username>
+        <time>1322</time>
+        <problem>62.....53..73.19..9.......4..84.56..7.......1..49.73..1.......6..61.28..83.....27</problem>
+        <solved>621849753457321968983576214398415672765283491214967385142798536576132849839654127</solved>
+    </history>
+    <history id="82" level="5" description="Medium">
+        <username>yo</username>
+        <time>11</time>
+        <problem>31.4...9868.2.34....7..9..52.....18.7..9.1..4.91.....35..7..9....41.5.3616...4.52</problem>
+        <solved>315476298689253417427819365246537189753981624891642573532768941974125836168394752</solved>
     </history>
 </histories>

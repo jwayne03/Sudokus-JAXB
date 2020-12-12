@@ -20,4 +20,9 @@
         <username>yo</username>
         <password>asd</password>
     </user>
+    <user>
+        <fullname>jwayne</fullname>
+        <username>jwayne</username>
+        <password>asd</password>
+    </user>
 </users>
