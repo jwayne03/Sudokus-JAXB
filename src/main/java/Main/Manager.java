@@ -15,7 +15,7 @@ public class Manager implements Runnable {
     private static Manager manager;
     private FileManagement fileManagement;
     private Worker worker;
-    private List<User> userList = null;
+    private List<User> userList;
     private List<Sudoku> sudokuList;
     private List<History> historyList;
 
@@ -79,6 +79,14 @@ public class Manager implements Runnable {
 
     public void registerUser() {
         User user = new User();
+
+        if (userList == null) {
+            user.setFullname("root");
+            user.setUsername("root");
+            user.setPassword("root");
+            userList.add(new User(user.getFullname(), user.getUsername(), user.getPassword()));
+            saveDataXML(userList);
+        }
 
         System.out.println("You have chose to register, here we go.");
         String fullname = worker.askString("Introduce your fullname");
@@ -202,7 +210,7 @@ public class Manager implements Runnable {
         Random random = new Random();
         int rand = random.nextInt(100) + 1;
 
-        if (isSudokuPlayed(username)) {
+        if (!isSudokuPlayed(username)) {
 
             boolean exit = false;
 
@@ -237,7 +245,7 @@ public class Manager implements Runnable {
         for (History history : historyList) {
             if (history.getUsername().equalsIgnoreCase(username)) {
                 for (Sudoku sudoku : sudokuList) {
-                    if (history.getId() != sudoku.getId()) {
+                    if (history.getId() == sudoku.getId()) {
                         return true;
                     }
                 }

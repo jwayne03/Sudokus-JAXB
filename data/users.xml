@@ -1,28 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <users>
     <user>
-        <fullname>wayne</fullname>
-        <username>jwayne</username>
-        <password>2312312312</password>
-    </user>
-    <user>
-        <fullname>ivan</fullname>
-        <username>atance</username>
-        <password>123123123</password>
-    </user>
-    <user>
-        <fullname>xd</fullname>
-        <username>xd</username>
-        <password>123</password>
-    </user>
-    <user>
-        <fullname>yo</fullname>
-        <username>yo</username>
-        <password>asd</password>
-    </user>
-    <user>
-        <fullname>jwayne</fullname>
-        <username>jwayne</username>
-        <password>asd</password>
+        <fullname>root</fullname>
+        <username>root</username>
+        <password>root</password>
     </user>
 </users>
